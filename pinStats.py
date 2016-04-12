@@ -4,11 +4,20 @@ import sys
 import pinUtil as util
 
 class Statistics:
+	max_mem_usage = 0
+	min_mem_usage = 100
+	avg_mem_usage = 0
+	max_disk_usage = 0
+	max_cpu_usage = 0
+	avg_cpu_usage = 0
+	count=0
+
 	def __init__(self):
 		pass
 
 	@classmethod
 	def get_system_stat(cls):
+		cls.count+=1
 		data = {}
 		data['cpu_stat'] = cls.get_cpu_details()
 		data['memory_stat'] = cls.get_memory_details()
@@ -20,6 +29,8 @@ class Statistics:
 		cpu_stat = {}
 		cpu_stat['time_stat'] = cls.get_cpu_times()
 		cpu_stat['usage'] = psutil.cpu_percent()
+		cls.max_cpu_usage = max(cpu_stat['usage'],cls.max_cpu_usage)
+		cls.avg_cpu_usage = (cls.avg_cpu_usage+cpu_stat['usage'])/cls.count
 		return cpu_stat
 
 	@classmethod
@@ -54,6 +65,9 @@ class Statistics:
 		vm['used'] = vm_obj.used
 		vm['free'] = vm_obj.free
 		vm['percent'] = vm_obj.percent
+		cls.max_mem_usage = max(vm['percent'], cls.max_mem_usage)
+		cls.min_mem_usage = min(vm['percent'], cls.min_mem_usage)
+		cls.avg_mem_usage = (cls.avg_mem_usage+vm['percent'])/cls.count
 		vm['active'] = vm_obj.active
 		vm['inactive'] = vm_obj.inactive
 		return vm
@@ -81,8 +95,11 @@ class Statistics:
 	@classmethod
 	def get_disk_partition_stats(cls):
 		partition_stats = []
+		use = 0
+		cnt = 0
 		for partition in psutil.disk_partitions(all=False):
 			data = {}
+			cnt+=1
 			data['device'] = partition.device
 			data['mt_pt'] = partition.mountpoint
 			usage = psutil.disk_usage(data['mt_pt'])
@@ -90,7 +107,9 @@ class Statistics:
 			data['total_mem'] = usage.total
 			data['free_mem'] = usage.free
 			data['used_percent'] = int(usage.percent)
+			use=(use+data['used_percent'])/cnt
 			partition_stats.append(data)
+		cls.max_disk_usage = max(cls.max_disk_usage,use)
 		return partition_stats
 
 	
