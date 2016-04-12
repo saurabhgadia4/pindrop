@@ -1,7 +1,8 @@
 # pindrop
 Pindrop coding assessment.
 
-Intall Pre-requisite:
+Python Version:'2.7.6 (default, Jun 22 2015, 17:58:13) \n[GCC 4.8.2]'
+Intall Pre-requisite packages:
 
 1. Install psutil
    $ sudo apt-get install gcc python-dev
@@ -11,7 +12,7 @@ Intall Pre-requisite:
    $ sudo pip install cherrypy
 
 
-Steps to run and API suppport:-
+Steps to run monitor service and API suppport:-
 
 1. $ python pinLauncher.py
    this will start the cherrypy engine. To stop the cherry engine you can just press ctrl+c. Currently we are running in default setting of cherrypy. So it is launced at "http://127.0.0.1:8080/start"
