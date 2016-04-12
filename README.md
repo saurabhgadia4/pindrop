@@ -61,5 +61,7 @@ Assumption:
 
 3. I am using cherryPy webframework to support the restFull API's.
 
-4. I have also not added any exception handling code. Provided time I can add specific exception handling code where ever required.
+4. I have used event handling, locking and threading mechanism to manage the monitor service.
+
+5. I have also not added any exception handling code. Provided time I can add specific exception handling code where ever required.
 
